@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gamepad Tester – M.V. Electronix</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body { background: #000; color: #00ff5e; font-family: monospace; text-align: center; }
+    h1 { color: #00ff5e; }
+    #status { margin: 1em 0; }
+    .pad-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 40px);
+      gap: 8px;
+      justify-content: center;
+      margin: 2em auto 1em;
+      max-width: 380px;
+    }
+    .btn {
+      width: 38px; height: 38px;
+      border: 1px solid #00ff5e;
+      border-radius: 7px;
+      background: #010;
+      font-size: 1em;
+      transition: background 0.1s, box-shadow 0.1s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn.on {
+      background: #00ff5e;
+      color: #000;
+      box-shadow: 0 0 10px #00ff5e77;
+    }
+    .axis-bar {
+      background: #111;
+      border: 1px solid #00ff5e44;
+      border-radius: 5px;
+      width: 180px;
+      height: 12px;
+      margin: 0.6em auto 1em;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .axis-dot {
+      position: absolute;
+      top: 0;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #00ff5e;
+      transform: translateX(-7px);
+    }
+    #gamepad-info { font-size: 1.1em; margin-bottom: 1em; }
+    footer { color: #007f45; margin-top: 2em; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>🎮 Gamepad Tester</h1>
+  <div id="status">Connect a gamepad &amp; press any button…</div>
+  <div id="gamepad-info"></div>
+  <div class="pad-grid" id="buttons"></div>
+  <div id="axes"></div>
+  <div id="calibration-section" style="margin:2em auto 1em;">
+    <button id="set-center" style="padding:0.5em 1.5em; background:#00ff5e; color:#000; font-family:monospace; border:none; border-radius:6px; font-size:1em; cursor:pointer;">Set Center</button>
+    <div id="calib-info" style="margin-top:0.8em; font-size:1.1em;"></div>
+  </div>
+  <footer>
+    M.V. Electronix — Gamepad Tester • Powered by the Gamepad API
+  </footer>
+  <script>
+    let calibration = { axes: [] };
+
+    document.getElementById("set-center").onclick = function() {
+      const gamepads = navigator.getGamepads();
+      for (let gp of gamepads) {
+        if (gp) {
+          calibration.axes = gp.axes.slice();
+          document.getElementById("calib-info").innerText = "Center set!";
+          setTimeout(() => document.getElementById("calib-info").innerText = "", 1000);
+          break;
+        }
+      }
+    };
+
+    function updateGamepadStatus() {
+      const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+      let found = false;
+      for (let gp of gamepads) {
+        if (!gp) continue;
+        found = true;
+        document.getElementById("gamepad-info").innerHTML =
+          `<b>${gp.id}</b><br>Index: ${gp.index}, Buttons: ${gp.buttons.length}, Axes: ${gp.axes.length}`;
+        // Buttons
+        let btns = '';
+        for (let i=0; i<gp.buttons.length; i++) {
+          btns += `<div class="btn${gp.buttons[i].pressed ? ' on' : ''}">${i}</div>`;
+        }
+        document.getElementById("buttons").innerHTML = btns;
+
+        // Axes with calibration
+        let axesHtml = '';
+        for (let j=0; j<gp.axes.length; j++) {
+          const val = gp.axes[j];
+          const calib = calibration.axes[j] ?? 0;
+          const corrected = val - calib;
+          const pos = ((corrected + 1) / 2) * 165;
+          axesHtml += `
+            <div class="axis-bar">
+              <div class="axis-dot" style="left:${pos}px"></div>
+              <span style="margin-left: 180px;">Axis ${j}: ${val.toFixed(2)} (cal: ${corrected.toFixed(2)})</span>
+            </div>
+          `;
+        }
+        document.getElementById("axes").innerHTML = axesHtml;
+        break;
+      }
+      if (!found) {
+        document.getElementById("gamepad-info").innerHTML = "";
+        document.getElementById("buttons").innerHTML = "";
+        document.getElementById("axes").innerHTML = "";
+      }
+      // Status message
+      let connected = Array.from(gamepads).some(gp => gp);
+      if (connected) {
+        document.getElementById("status").innerHTML = "Gamepad connected! Press any button or move a stick.";
+      } else {
+        document.getElementById("status").innerHTML = "Connect a gamepad & press any button…";
+      }
+      requestAnimationFrame(updateGamepadStatus);
+    }
+    window.addEventListener("gamepadconnected", updateGamepadStatus);
+    window.addEventListener("gamepaddisconnected", updateGamepadStatus);
+    updateGamepadStatus();
+  </script>
+</body>
+</html>
