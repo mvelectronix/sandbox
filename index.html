@@ -8,71 +8,63 @@
     html, body {
       height: 100%;
       margin: 0;
-      background-color: #111;
-      color: #eee;
-      font-family: sans-serif;
+      background-color: #000;
+      color: #00ff5e;
+      font-family: monospace;
     }
-    .wrapper {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      max-width: 800px;
-      margin: auto;
+    .main-only {
       padding: 2em;
+      max-width: 1000px;
+      margin: auto;
     }
     h1 {
-      color: #ffd700;
+      color: #0f0;
       text-align: center;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1em;
+      margin-top: 2em;
     }
-    li {
-      background: #222;
-      margin: 0.5em 0;
+    .tool-button {
+      border: 1px solid #00ff5e;
       padding: 1em;
       border-radius: 8px;
-    }
-    a {
-      color: #00ffd5;
-      text-decoration: none;
+      text-align: center;
       font-weight: bold;
+      background: transparent;
+      transition: background 0.2s, color 0.2s;
+      color: #00ff5e;
+      text-decoration: none;
+      display: block;
     }
-    a:hover {
-      text-decoration: underline;
+    .tool-button:hover {
+      background: #00ff5e22;
+      color: #0f0;
     }
     footer {
       text-align: center;
+      font-size: 0.8em;
+      padding: 1em;
+      border-top: 1px solid #0f0;
+      color: #0f0;
       margin-top: 3em;
-      font-size: 0.85em;
-      color: #888;
-      padding-top: 1em;
-      border-top: 1px solid #333;
     }
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <main>
-      <h1>🧪 Sandbox</h1>
-      <p>My test projects, experiments, and tools:</p>
-      <ul>
-        <li><a href="stayinalive/">Stayin’ Alive – Daily Win Tracker</a></li>
-        <li><a href="gamepadtester/">Gamepad Tester</a></li>
-        <li><a href="beginnersguidetohtml/">Beginners Guide to HTML</a></li>
-        <li><a href="dualshock/">Dualshock Calibration Tool</a></li>
-        <!-- Add more tools below -->
-      </ul>
+  <div class="main-only">
+    <h1>🧪 Sandbox Projects</h1>
+    <p class="text-center">Test tools, experiments, and UI projects:</p>
 
-      <h2 style="margin-top: 2em; color: #ffd700;">🔗 Useful Links</h2>
-      <ul>
-        <li><a href="https://mvelectronix.com">M.V. Electronix</a></li>
-        <li><a href="https://pulsecheck.mvelectronix.com">PulseCheck</a></li>
-        <li><a href="https://cloud.mvelectronix.com">R2 Explorer</a></li>
-        <!-- Add more links below -->
-      </ul>
-    </main>
+    <div class="tools-grid">
+      <a class="tool-button" href="stayinalive/">Stayin’ Alive Tracker</a>
+      <a class="tool-button" href="gamepadtester/">Gamepad Tester</a>
+      <a class="tool-button" href="beginnersguidetohtml/">Beginner's HTML Guide</a>
+      <a class="tool-button" href="dualshock/">DualShock Calibrator</a>
+      <!-- Add more buttons as needed -->
+    </div>
 
     <footer>
       Powered by M.V. Electronix LLC · © 2025 All rights reserved.
