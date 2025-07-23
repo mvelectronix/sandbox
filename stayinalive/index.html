@@ -2,82 +2,303 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Stayin’ Alive – Daily Tracker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="manifest" href="./manifest.json" />
-  <link rel="stylesheet" href="./style.css" />
+  <title>StayinAlive Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#aa8800">
   <style>
-    body {
-      background: #111;
-      color: #eee;
-      font-family: sans-serif;
+    html, body {
+      height: 100%;
       margin: 0;
-      padding: 2em;
-      max-width: 600px;
-      margin: auto;
+      padding: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: linear-gradient(to bottom, #aa8800 0%, #181818 28%, #181818 72%, #aa8800 100%);
+      color: #fff;
+      min-height: 100vh;
+      width: 100vw;
+      overflow-x: hidden;
+    }
+    .container {
+      background: #232324;
+      border-radius: 22px;
+      box-shadow: 0 4px 32px #0008;
+      max-width: 440px;
+      width: 98%;
+      padding: 2em 1.2em 1.4em 1.2em;
+      margin: 2.2em auto 1.6em auto;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
     }
     h1 {
+      color: #aa8800;
+      font-size: 2.1em;
       text-align: center;
-      color: #ffd700;
+      margin-bottom: .7em;
+      letter-spacing: -.03em;
     }
-    p {
+    .summary {
       text-align: center;
-      margin-bottom: 2em;
+      font-size: 1.18em;
+      background: #aa880040;
+      padding: 0.7em 0.3em;
+      border-radius: 12px;
+      margin-bottom: 1.2em;
+      font-weight: bold;
+      color: #fff;
+      border: 1.5px solid #aa8800;
+    }
+    .section {
+      font-size: 1.08em;
+      margin: 1.5em 0 0.7em 0;
+      color: #aa8800;
+      font-weight: 700;
+      letter-spacing: .01em;
+      text-shadow: 0 1px 3px #181818cc;
+    }
+    label {
+      display: flex;
+      align-items: center;
+      margin: 0.46em 0;
+      font-size: 1.04em;
+      border-radius: 7px;
+      padding: 0.34em 0.7em;
+      background: transparent;
+      transition: background 0.18s;
+      color: #fff;
+      cursor: pointer;
+    }
+    label:hover, label:focus-within {
+      background: #aa880019;
+    }
+    input[type="checkbox"] {
+      margin-right: 1em;
+      width: 1.15em;
+      height: 1.15em;
+      accent-color: #aa8800;
     }
     button {
-      background: #aa8800;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      padding: 1em 2em;
-      font-size: 1rem;
-      border-radius: 8px;
       display: block;
-      margin: 2em auto;
+      margin: 1.2em auto 0 auto;
+      background: #aa8800;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.1em;
+      border: none;
+      border-radius: 10px;
+      padding: 0.7em 1.6em;
       cursor: pointer;
-      transition: 0.2s;
+      box-shadow: 0 2px 12px #aa880048;
+      transition: background 0.2s;
+      letter-spacing: .01em;
     }
-    button:hover {
-      background: #ccaa33;
+    button:hover { background: #ffd700; color: #232324; }
+    #historyChart {
+      width: 100%;
+      height: 112px;
+      background: #181818;
+      border-radius: 15px;
+      margin: 1.7em 0 0.7em 0;
+      display: block;
+      box-shadow: 0 0 0 #0000;
     }
-    ul {
-      list-style: none;
-      padding: 0;
+    @media (max-width: 500px) {
+      .container { padding: 1.2em 0.15em 1em 0.15em; }
+      h1 { font-size: 1.2em;}
+      .summary { font-size: .99em;}
     }
-    li {
-      background: #222;
-      margin: 0.5em 0;
-      padding: 1em;
-      border-left: 5px solid #00ff88;
-      border-radius: 4px;
-    }
-    footer {
-      margin-top: 4em;
-      font-size: 0.8em;
-      text-align: center;
-      color: #555;
-    }
+    /* Hide focus outlines on click/tap */
+    *:focus { outline: none; }
   </style>
 </head>
 <body>
-  <h1>✅ Stayin’ Alive</h1>
-  <p>Daily win tracker. Log your little victories every day.</p>
+  <canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:100;display:none;"></canvas>
+  <div class="container">
+    <h1>🏆 StayinAlive Tracker</h1>
+    <div class="summary" id="summary"></div>
 
-  <ul id="wins"></ul>
+    <form id="dailyChecklist">
+      <div class="section">☀️ Morning</div>
+      <label><input type="checkbox" name="hydrated"> Drink water / wake up & move</label>
+      <label><input type="checkbox" name="intention"> Set my “one most important thing” for today</label>
+      <label><input type="checkbox" name="breakfast"> Breakfast & check-in with kids</label>
+      <label><input type="checkbox" name="homeschool"> Basic homeschool plan</label>
 
-  <button onclick="addWin()">Add a Win 🎉</button>
+      <div class="section">⚡ Midday / Work</div>
+      <label><input type="checkbox" name="mainwork"> Work on “one thing” (business/house)</label>
+      <label><input type="checkbox" name="break"> Take a mini break</label>
+      <label><input type="checkbox" name="extratask"> Optional: one small extra task</label>
 
-  <footer>
-    Powered by <a href="https://mvelectronix.com" style="color:#aa8800;">M.V. Electronix</a> &middot; Your wins stay on your device.
-  </footer>
+      <div class="section">🏡 Afternoon / Family</div>
+      <label><input type="checkbox" name="tidy"> Quick house tidy or 1 chore</label>
+      <label><input type="checkbox" name="family"> Family/kid time (play, learn, outside)</label>
+      <label><input type="checkbox" name="snack"> Snack & chill</label>
 
-  <script src="./app.js"></script>
+      <div class="section">🌙 Evening</div>
+      <label><input type="checkbox" name="dinner"> Dinner together</label>
+      <label><input type="checkbox" name="reflect"> 2-min reflection: What went well? One for tomorrow?</label>
+      <label><input type="checkbox" name="winddown"> Personal wind-down (read, TV, hobby)</label>
+    </form>
+
+    <button onclick="resetChecklist()">Reset for Today</button>
+    <canvas id="historyChart"></canvas>
+  </div>
+
   <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./service-worker.js')
-        .then(() => console.log('✅ SW registered'))
-        .catch(err => console.error('SW failed', err));
+    const checklist = document.getElementById('dailyChecklist');
+    const summary = document.getElementById('summary');
+    const chart = document.getElementById('historyChart');
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const STORAGE_KEY = 'dailyWinsDataV1';
+
+    const tasks = [
+      "hydrated", "intention", "breakfast", "homeschool",
+      "mainwork", "break", "extratask",
+      "tidy", "family", "snack",
+      "dinner", "reflect", "winddown"
+    ];
+
+    function todayStr() {
+      return new Date().toISOString().slice(0, 10);
     }
+
+    function loadData() {
+      let d = localStorage.getItem(STORAGE_KEY);
+      if (!d) return { history: {} };
+      try { return JSON.parse(d); } catch { return { history: {} }; }
+    }
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    // Check if we need to show confetti for 100%
+    let didConfetti = false;
+    function render() {
+      const data = loadData();
+      const t = todayStr();
+      const today = data.history[t] || {};
+      let winCount = 0;
+      tasks.forEach(name => {
+        const box = checklist.elements[name];
+        box.checked = !!today[name];
+        if (today[name]) winCount++;
+      });
+      const percent = Math.round(100*winCount/tasks.length);
+      summary.innerHTML = `<b>${winCount}</b> of <b>${tasks.length}</b> wins today (${percent}%)`;
+      drawChart(data.history);
+
+      // Confetti logic
+      if (percent === 100 && !didConfetti) {
+        didConfetti = true;
+        launchConfetti();
+      }
+      if (percent < 100) didConfetti = false;
+    }
+
+    checklist.addEventListener('change', (e) => {
+      const name = e.target.name;
+      const checked = e.target.checked;
+      const data = loadData();
+      const t = todayStr();
+      data.history[t] = data.history[t] || {};
+      data.history[t][name] = checked;
+      saveData(data);
+      render();
+    });
+
+    function resetChecklist() {
+      const data = loadData();
+      const t = todayStr();
+      data.history[t] = {};
+      saveData(data);
+      render();
+    }
+
+    function drawChart(history) {
+      const ctx = chart.getContext('2d');
+      ctx.clearRect(0,0,chart.width,chart.height);
+      let dates = [], values = [];
+      for (let i=6; i>=0; i--) {
+        const d = new Date(Date.now()-i*864e5);
+        const s = d.toISOString().slice(0,10);
+        dates.push(s.slice(5));
+        const tasksDone = history[s] ? tasks.filter(t => history[s][t]).length : 0;
+        values.push(tasksDone);
+      }
+      const w = chart.width = chart.offsetWidth;
+      const h = chart.height = chart.offsetHeight;
+      const maxV = tasks.length;
+      for (let i=0; i<7; i++) {
+        const barH = Math.round((values[i]/maxV)*h*0.88);
+        ctx.fillStyle = "#aa8800";
+        ctx.fillRect(i*w/7+10, h-barH-8, w/9, barH);
+        ctx.fillStyle = "#fff";
+        ctx.font = "12px sans-serif";
+        ctx.fillText(values[i], i*w/7+14, h-barH-12);
+        ctx.fillStyle = '#aa8800cc';
+        ctx.font = "10px sans-serif";
+        ctx.fillText(dates[i], i*w/7+8, h-2);
+      }
+    }
+
+    // Confetti code
+    function launchConfetti() {
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+      confettiCanvas.style.display = 'block';
+      const ctx = confettiCanvas.getContext('2d');
+      const particles = [];
+      const colors = ['#fff', '#aa8800', '#ffd700', '#fffbe6'];
+      for (let i=0;i<110;i++) {
+        particles.push({
+          x: Math.random()*confettiCanvas.width,
+          y: -20,
+          r: 5+Math.random()*8,
+          d: Math.random()*110,
+          color: colors[Math.floor(Math.random()*colors.length)],
+          tilt: Math.random()*10-5,
+          tiltAngle: 0,
+          speed: 1+Math.random()*2,
+        });
+      }
+      let frame = 0;
+      function draw() {
+        ctx.clearRect(0,0,confettiCanvas.width,confettiCanvas.height);
+        for (let i=0;i<particles.length;i++) {
+          let p = particles[i];
+          ctx.beginPath();
+          ctx.ellipse(p.x, p.y, p.r, p.r/2, p.tilt, 0, 2*Math.PI);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = 0.8;
+          ctx.fill();
+          p.y += p.speed;
+          p.x += Math.sin(p.d+frame/10)*2;
+          p.tilt += Math.sin(frame/12+p.d);
+          p.tiltAngle += Math.random()*0.2-0.1;
+          if (p.y > confettiCanvas.height+40) p.y = -20;
+        }
+        frame++;
+        if (frame < 80) {
+          requestAnimationFrame(draw);
+        } else {
+          confettiCanvas.style.display = 'none';
+        }
+        ctx.globalAlpha = 1.0;
+      }
+      draw();
+    }
+
+    // Midnight reset
+    setInterval(() => {
+      const last = localStorage.getItem('lastDay') || '';
+      const t = todayStr();
+      if (last !== t) {
+        localStorage.setItem('lastDay', t);
+        resetChecklist();
+      }
+    }, 60000);
+
+    render();
   </script>
 </body>
 </html>
