@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML eBook Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body, html {
+      margin: 0;
+      height: 100%;
+      background: #111;
+      color: #fff;
+      font-family: sans-serif;
+    }
+    .viewer {
+      width: 100%;
+      height: 100vh;
+      border: none;
+    }
+    .topbar {
+      background: #222;
+      padding: 10px;
+      text-align: center;
+    }
+    .topbar h1 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <h1>📘 Learn HTML – Free PDF Viewer</h1>
+  </div>
+  <embed src="html-course.pdf" class="viewer" type="application/pdf">
+</body>
+</html>
