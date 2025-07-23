@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Stayin’ Alive – Daily Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <h1>✅ Stayin’ Alive</h1>
+  <p>Daily win tracker. Mark your victories!</p>
+
+  <ul id="wins"></ul>
+  <button onclick="addWin()">Add a Win 🎉</button>
+
+  <script src="./app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('✅ SW registered'))
+        .catch(err => console.error('SW failed', err));
+    }
+  </script>
+</body>
+</html>
