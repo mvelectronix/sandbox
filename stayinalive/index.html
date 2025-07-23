@@ -6,13 +6,70 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="manifest" href="./manifest.json" />
   <link rel="stylesheet" href="./style.css" />
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 2em;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #ffd700;
+    }
+    p {
+      text-align: center;
+      margin-bottom: 2em;
+    }
+    button {
+      background: #aa8800;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      padding: 1em 2em;
+      font-size: 1rem;
+      border-radius: 8px;
+      display: block;
+      margin: 2em auto;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    button:hover {
+      background: #ccaa33;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #222;
+      margin: 0.5em 0;
+      padding: 1em;
+      border-left: 5px solid #00ff88;
+      border-radius: 4px;
+    }
+    footer {
+      margin-top: 4em;
+      font-size: 0.8em;
+      text-align: center;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
   <h1>✅ Stayin’ Alive</h1>
-  <p>Daily win tracker. Mark your victories!</p>
+  <p>Daily win tracker. Log your little victories every day.</p>
 
   <ul id="wins"></ul>
+
   <button onclick="addWin()">Add a Win 🎉</button>
+
+  <footer>
+    Powered by <a href="https://mvelectronix.com" style="color:#aa8800;">M.V. Electronix</a> &middot; Your wins stay on your device.
+  </footer>
 
   <script src="./app.js"></script>
   <script>
