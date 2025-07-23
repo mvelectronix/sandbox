@@ -5,13 +5,20 @@
   <title>🧪 Sandbox Projects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
       background-color: #111;
       color: #eee;
       font-family: sans-serif;
-      padding: 2em;
+    }
+    .wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
       max-width: 800px;
       margin: auto;
+      padding: 2em;
     }
     h1 {
       color: #ffd700;
@@ -35,18 +42,41 @@
     a:hover {
       text-decoration: underline;
     }
+    footer {
+      text-align: center;
+      margin-top: 3em;
+      font-size: 0.85em;
+      color: #888;
+      padding-top: 1em;
+      border-top: 1px solid #333;
+    }
   </style>
 </head>
 <body>
-  <h1>🧪 Sandbox</h1>
-  <p>My test projects, experiments, and tools:</p>
-  <ul>
-    <li><a href="stayinalive/">Stayin’ Alive – Daily Win Tracker</a></li>
-    <li><a href="gamepadtester/">Gamepad Tester</a></li>
-    <li><a href="beginnersguidetohtml/">Beginners Guide to HTML</a></li>
-    <li><a href="dualshock/">Dualshock Calibration Tool</a></li>
-    <!-- Add more below -->
-  </ul>
-  <footer>Powered by M.V. Elctronix LLC</footer>
+  <div class="wrapper">
+    <main>
+      <h1>🧪 Sandbox</h1>
+      <p>My test projects, experiments, and tools:</p>
+      <ul>
+        <li><a href="stayinalive/">Stayin’ Alive – Daily Win Tracker</a></li>
+        <li><a href="gamepadtester/">Gamepad Tester</a></li>
+        <li><a href="beginnersguidetohtml/">Beginners Guide to HTML</a></li>
+        <li><a href="dualshock/">Dualshock Calibration Tool</a></li>
+        <!-- Add more tools below -->
+      </ul>
+
+      <h2 style="margin-top: 2em; color: #ffd700;">🔗 Useful Links</h2>
+      <ul>
+        <li><a href="https://mvelectronix.com">Main Website – M.V. Electronix</a></li>
+        <li><a href="https://github.com/mvelectronix">My GitHub Profile</a></li>
+        <li><a href="https://sandbox.mvelectronix.com">This Sandbox (Refresh)</a></li>
+        <!-- Add more links below -->
+      </ul>
+    </main>
+
+    <footer>
+      Powered by M.V. Electronix LLC · © 2025 All rights reserved.
+    </footer>
+  </div>
 </body>
 </html>
